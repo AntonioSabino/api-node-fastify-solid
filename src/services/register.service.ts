@@ -14,7 +14,7 @@ export class RegisterService {
     this.usersRepository = usersRepository
   }
 
-  async execute({ name, email, password }: RegisterServiceRequest) {
+  async createUser({ name, email, password }: RegisterServiceRequest) {
     const passwordHash = await hash(password, 8)
 
     const userWithSameEmail = await this.usersRepository.findByEmail(email)
