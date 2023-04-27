@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { RegisterService } from './register.service'
 import { compare } from 'bcryptjs'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users.repository'
@@ -6,10 +6,14 @@ import { UserAlreadyExistsError } from '../common/errors/user-already-exists-err
 import { User } from '@/common/interfaces/user.interface'
 
 describe('Register Service', () => {
-  it('should be able to register', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const registerService = new RegisterService(usersRepository)
+  let registerService: RegisterService
 
+  beforeEach(() => {
+    const usersRepository = new InMemoryUsersRepository()
+    registerService = new RegisterService(usersRepository)
+  })
+
+  it('should be able to register', async () => {
     const user = await registerService.createUser({
       name: 'John Doe',
       email: 'john.doe@gmail.com',
@@ -20,9 +24,6 @@ describe('Register Service', () => {
   })
 
   it('should hash user password upon registration', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const registerService = new RegisterService(usersRepository)
-
     const user = await registerService.createUser({
       name: 'John Doe',
       email: 'john.doe@gmail.com',
@@ -35,9 +36,6 @@ describe('Register Service', () => {
   })
 
   it('should not allow two users with the same email', async () => {
-    const usersRepository = new InMemoryUsersRepository()
-    const registerService = new RegisterService(usersRepository)
-
     const email = 'john.doe@gmail.com'
 
     await registerService.createUser({
