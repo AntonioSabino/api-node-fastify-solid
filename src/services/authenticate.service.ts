@@ -1,8 +1,8 @@
-import { AuthenticateInput } from '@/interfaces/authenticate.interface'
+import { AuthenticateInput } from '@/common/interfaces/authenticate.interface'
 import { UsersRepository } from '@/repositories/users.repository'
-import { InvalidCredentialsError } from './errors/invalid-credentials-error'
+import { InvalidCredentialsError } from '../common/errors/invalid-credentials-error'
 import { compare } from 'bcryptjs'
-import { User } from '@/interfaces/user.interface'
+import { User } from '@/common/interfaces/user.interface'
 
 export class AuthenticateService {
   constructor(private readonly userRepository: UsersRepository) {

@@ -1,4 +1,4 @@
-import { User, UserRepositoryCreateInput } from '@/interfaces/user.interface'
+import { User, UserRepositoryCreateInput } from '@/common/interfaces/user.interface'
 import { UsersRepository } from '../users.repository'
 
 export class InMemoryUsersRepository implements UsersRepository {

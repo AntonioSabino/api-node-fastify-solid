@@ -1,7 +1,7 @@
 import { UsersRepository } from '@/repositories/users.repository'
 import { hash } from 'bcryptjs'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
-import { User, UserCreateInput } from '@/interfaces/user.interface'
+import { UserAlreadyExistsError } from '../common/errors/user-already-exists-error'
+import { User, UserCreateInput } from '@/common/interfaces/user.interface'
 
 export class RegisterService {
   private readonly usersRepository: UsersRepository

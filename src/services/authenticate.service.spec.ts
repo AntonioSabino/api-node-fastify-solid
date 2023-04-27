@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users.repository'
-import { User } from '@/interfaces/user.interface'
+import { User } from '@/common/interfaces/user.interface'
 import { AuthenticateService } from './authenticate.service'
 import { hash } from 'bcryptjs'
-import { InvalidCredentialsError } from './errors/invalid-credentials-error'
+import { InvalidCredentialsError } from '../common/errors/invalid-credentials-error'
 
 describe('Authenticate Service', () => {
   it('should be able to authenticate', async () => {

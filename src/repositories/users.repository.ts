@@ -1,4 +1,7 @@
-import { User, UserRepositoryCreateInput } from '@/interfaces/user.interface'
+import {
+  User,
+  UserRepositoryCreateInput,
+} from '@/common/interfaces/user.interface'
 
 export interface UsersRepository {
   findByEmail(email: string): Promise<User | null>
