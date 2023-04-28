@@ -3,6 +3,7 @@ import {
   UserRepositoryCreateInput,
 } from '@/common/interfaces/user.interface'
 import { UsersRepository } from '../users.repository'
+import { randomUUID } from 'node:crypto'
 
 export class InMemoryUsersRepository implements UsersRepository {
   public users: User[] = []
@@ -21,7 +22,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
   async create(data: UserRepositoryCreateInput) {
     const user = {
-      id: '1',
+      id: randomUUID(),
       name: data.name,
       email: data.email,
       password_hash: data.password_hash,
