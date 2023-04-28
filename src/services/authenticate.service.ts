@@ -5,9 +5,7 @@ import { compare } from 'bcryptjs'
 import { User } from '@/common/interfaces/user.interface'
 
 export class AuthenticateService {
-  constructor(private readonly userRepository: UsersRepository) {
-    this.userRepository = userRepository
-  }
+  constructor(private readonly userRepository: UsersRepository) {}
 
   async login({ email, password }: AuthenticateInput): Promise<User> {
     const user = await this.userRepository.findByEmail(email)
