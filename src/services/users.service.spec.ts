@@ -4,6 +4,7 @@ import { compare } from 'bcryptjs'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users.repository'
 import { UserAlreadyExistsError } from '../common/errors/user-already-exists-error'
 import { User } from '@/common/interfaces/user.interface'
+import { ResourceNotFoundError } from '@/common/errors/resource-not-found-error'
 
 describe('User Service', () => {
   let usersService: UsersService
@@ -14,7 +15,7 @@ describe('User Service', () => {
   })
 
   it('should be able to users', async () => {
-    const user = await usersService.createUser({
+    const user = await usersService.create({
       name: 'John Doe',
       email: 'john.doe@gmail.com',
       password: '123456',
@@ -24,7 +25,7 @@ describe('User Service', () => {
   })
 
   it('should hash user password upon registration', async () => {
-    const user = await usersService.createUser({
+    const user = await usersService.create({
       name: 'John Doe',
       email: 'john.doe@gmail.com',
       password: '123456',
@@ -38,18 +39,37 @@ describe('User Service', () => {
   it('should not allow two users with the same email', async () => {
     const email = 'john.doe@gmail.com'
 
-    await usersService.createUser({
+    await usersService.create({
       name: 'John Doe',
       email,
       password: '123456',
     })
 
     await expect(() => {
-      return usersService.createUser({
+      return usersService.create({
         name: 'John Doe',
         email,
         password: '123456',
       })
     }).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
+
+  it('should be able to find a user by id', async () => {
+    const user = await usersService.create({
+      name: 'John Doe',
+      email: 'john.doe@gmail.com',
+      password: '123456',
+    })
+
+    const foundUser = await usersService.findById({ userId: user.id })
+
+    expect(foundUser).toMatchObject<User>(user)
+    expect(foundUser.name).toBe('John Doe')
+  })
+
+  it('should not be able to find a non-existing user', async () => {
+    await expect(() => {
+      return usersService.findById({ userId: 'non-existing-user-id' })
+    }).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 })

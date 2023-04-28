@@ -17,7 +17,7 @@ export class UsersController {
     const { name, email, password } = registerBodySchema.parse(request.body)
 
     try {
-      await this.usersService.createUser({
+      await this.usersService.create({
         name,
         email,
         password,
