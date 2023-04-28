@@ -1,6 +1,6 @@
 import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users.repository'
 import { UsersService } from '@/services/users.service'
-import { UsersController } from '../controllers/users.controller'
+import { UsersController } from '../users.controller'
 
 export default function makeUsersController() {
   const usersRepository = new PrismaUsersRepository()

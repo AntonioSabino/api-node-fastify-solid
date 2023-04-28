@@ -1,10 +1,11 @@
 import { FastifyInstance } from 'fastify'
-import { authenticate } from './controllers/authenticate.controller'
-import makeUsersController from './factories/users.factory'
+import makeUsersController from './controllers/factories/users.factory'
+import makeAuthController from './controllers/factories/authenticate.factory'
 
-const controller = makeUsersController()
+const userController = makeUsersController()
+const authController = makeAuthController()
 
 export async function appRoutes(app: FastifyInstance) {
-  app.post('/users', (req, res) => controller.createUser(req, res))
-  app.post('/sessions', authenticate)
+  app.post('/users', (req, res) => userController.createUser(req, res))
+  app.post('/users/login', (req, res) => authController.login(req, res))
 }
