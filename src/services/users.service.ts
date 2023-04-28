@@ -3,10 +3,10 @@ import { hash } from 'bcryptjs'
 import { UserAlreadyExistsError } from '../common/errors/user-already-exists-error'
 import { User, UserCreateInput } from '@/common/interfaces/user.interface'
 
-export class RegisterService {
+export class UsersService {
   private readonly usersRepository: UsersRepository
 
-  constructor(usersRepository: UsersRepository) {
+  constructor(usersRepository: any) {
     this.usersRepository = usersRepository
   }
 
