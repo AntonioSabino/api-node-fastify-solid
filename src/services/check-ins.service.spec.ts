@@ -2,14 +2,26 @@ import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-c
 import CheckInsService from './check-ins.service'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { CheckIn } from '@/common/interfaces/check-ins.interface'
+import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms.repository'
 
 describe('CheckIn Service', () => {
+  let gymsRepository: InMemoryGymsRepository
   let checkInsRepository: InMemoryCheckInsRepository
   let checkInsService: CheckInsService
 
   beforeEach(() => {
+    gymsRepository = new InMemoryGymsRepository()
     checkInsRepository = new InMemoryCheckInsRepository()
-    checkInsService = new CheckInsService(checkInsRepository)
+    checkInsService = new CheckInsService(checkInsRepository, gymsRepository)
+
+    gymsRepository.gyms.push({
+      id: 'gym_id',
+      name: 'Gym Name',
+      description: 'Gym Description',
+      phone: 'Gym Phone',
+      latitude: '0',
+      longitude: '0',
+    })
 
     vi.useFakeTimers()
   })
@@ -22,6 +34,8 @@ describe('CheckIn Service', () => {
     const checkIn = await checkInsService.create({
       gymId: 'gym_id',
       userId: 'user_id',
+      userLatitude: '0',
+      userLongitude: '0',
     })
 
     expect(checkIn).toHaveProperty('id')
@@ -36,6 +50,8 @@ describe('CheckIn Service', () => {
     await checkInsService.create({
       gymId: 'gym_id',
       userId: 'user_id',
+      userLatitude: '0',
+      userLongitude: '0',
     })
 
     vi.setSystemTime(new Date('2023-03-28T22:00:00.000Z'))
@@ -44,6 +60,8 @@ describe('CheckIn Service', () => {
       checkInsService.create({
         gymId: 'gym_id',
         userId: 'user_id',
+        userLatitude: '0',
+        userLongitude: '0',
       }),
     ).rejects.toBeInstanceOf(Error)
   })
@@ -54,6 +72,8 @@ describe('CheckIn Service', () => {
     await checkInsService.create({
       gymId: 'gym_id',
       userId: 'user_id',
+      userLatitude: '0',
+      userLongitude: '0',
     })
 
     vi.setSystemTime(new Date('2023-03-29T10:00:00.000Z'))
@@ -61,6 +81,8 @@ describe('CheckIn Service', () => {
     const secondCheckIn = await checkInsService.create({
       gymId: 'gym_id',
       userId: 'user_id',
+      userLatitude: '0',
+      userLongitude: '0',
     })
 
     expect(secondCheckIn).toMatchObject<CheckIn>

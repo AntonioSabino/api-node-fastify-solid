@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { GymsRepository } from '../gyms.repository'
-import { Gym } from '@prisma/client'
+import { Gym } from '@/common/interfaces/gym.interface'
 
 export class PrismaGymsRepository implements GymsRepository {
   async findById(id: string): Promise<Gym | null> {
@@ -10,6 +10,12 @@ export class PrismaGymsRepository implements GymsRepository {
       return null
     }
 
-    return gym
+    const convertedGym: Gym = {
+      ...gym,
+      latitude: gym.latitude.toString(),
+      longitude: gym.longitude.toString(),
+    }
+
+    return convertedGym
   }
 }
