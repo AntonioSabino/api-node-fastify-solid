@@ -18,4 +18,11 @@ export class InMemoryGymsRepository implements GymsRepository {
     const gym = this.gyms.find((gym) => gym.id === id)
     return gym || null
   }
+
+  async findManyByName(name: string, page: number): Promise<Gym[] | null> {
+    const gyms = this.gyms
+      .filter((gym) => gym.name.includes(name))
+      .slice((page - 1) * 20, page * 20)
+    return gyms || null
+  }
 }
