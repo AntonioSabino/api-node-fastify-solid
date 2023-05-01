@@ -7,4 +7,8 @@ export class GymsService {
   async create(gym: GymInput) {
     return this.gymsRepository.create(gym)
   }
+
+  async findManyByName(name: string, page: number) {
+    return this.gymsRepository.findManyByName(name, page)
+  }
 }
