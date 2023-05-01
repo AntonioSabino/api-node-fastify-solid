@@ -1,7 +1,7 @@
 import { MaxDistanceError } from '@/common/errors/max-distance-error'
 import { MaxNumberOfCheckInsError } from '@/common/errors/max-number-of-check-ins-erro'
 import { ResourceNotFoundError } from '@/common/errors/resource-not-found-error'
-import { CheckInInput } from '@/common/interfaces/check-ins.interface'
+import { CheckIn, CheckInInput } from '@/common/interfaces/check-ins.interface'
 import { CheckInsRepository } from '@/repositories/check-ins.repository'
 import { GymsRepository } from '@/repositories/gyms.repository'
 import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coordinates'
@@ -45,5 +45,14 @@ export default class CheckInsService {
     })
 
     return checkIn
+  }
+
+  async findManyByUserId(userId: string, page: number): Promise<CheckIn[]> {
+    const checkIns = await this.checkInsRepository.findManyByUserId(
+      userId,
+      page,
+    )
+
+    return checkIns
   }
 }

@@ -108,4 +108,41 @@ describe('CheckIn Service', () => {
       }),
     ).rejects.toBeInstanceOf(MaxDistanceError)
   })
+
+  it('should be able to get check-in history', async () => {
+    await checkInsRepository.create({
+      gym_id: 'gym_01',
+      user_id: 'user_01',
+    })
+
+    await checkInsRepository.create({
+      gym_id: 'gym_02',
+      user_id: 'user_01',
+    })
+
+    const checkIns = await checkInsService.findManyByUserId('user_01', 1)
+
+    expect(checkIns).toHaveLength(2)
+    expect(checkIns).toEqual([
+      expect.objectContaining({ gym_id: 'gym_01' }),
+      expect.objectContaining({ gym_id: 'gym_02' }),
+    ])
+  })
+
+  it('should be able to get paginated check-in history', async () => {
+    for (let i = 0; i < 22; i++) {
+      await checkInsRepository.create({
+        gym_id: `gym_${i}`,
+        user_id: 'user_01',
+      })
+    }
+
+    const checkIns = await checkInsService.findManyByUserId('user_01', 2)
+
+    expect(checkIns).toHaveLength(2)
+    expect(checkIns).toEqual([
+      expect.objectContaining({ gym_id: 'gym_20' }),
+      expect.objectContaining({ gym_id: 'gym_21' }),
+    ])
+  })
 })

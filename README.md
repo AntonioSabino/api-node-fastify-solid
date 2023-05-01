@@ -8,7 +8,7 @@ App estilo GymPass.
 - [x] Deve ser possível se autenticar;
 - [x] Deve ser possível obter o perfil de um usuário logado;
 - [ ] Deve ser possível obter o número de checkins de um usuário logado;
-- [ ] Deve ser possível obter seu histórico de checkins;
+- [x] Deve ser possível obter seu histórico de checkins;
 - [ ] Deve ser possível buscar academias próximas;
 - [ ] Deve ser possível buscar academias por nome;
 - [x] Deve ser possível o usuário realizar checkin em uma academia;
@@ -28,5 +28,5 @@ App estilo GymPass.
 
 - [x] A senha do usuário deve ser armazenada criptografada;
 - [x] Os dados da aplicação devem ser armazenados em um banco postgres;
-- [ ] Todas listas de dados devem ser paginadas com limite de 20 itens por página;
+- [x] Todas listas de dados devem ser paginadas com limite de 20 itens por página;
 - [ ] O usuário deve ser identificado através de um token JWT;
