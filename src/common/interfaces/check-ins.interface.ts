@@ -9,6 +9,8 @@ export interface CheckIn {
 export interface CheckInInput {
   userId: string
   gymId: string
+  userLatitude: string
+  userLongitude: string
 }
 
 export interface CheckInUncheckedCreateInput {
