@@ -41,7 +41,7 @@ export class PrismaUsersRepository implements CheckInsRepository {
       orderBy: {
         createdAt: 'desc',
       },
-      skip: page * 20,
+      skip: (page - 1) * 20,
       take: 20,
     })
 
