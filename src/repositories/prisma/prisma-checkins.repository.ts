@@ -3,7 +3,7 @@ import { CheckInsRepository } from '../check-ins.repository'
 import { CheckIn, Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 
-export class PrismaUsersRepository implements CheckInsRepository {
+export class PrismaCheckinsRepository implements CheckInsRepository {
   async countByUserId(userId: string) {
     const count = await prisma.checkIn.count({
       where: {
