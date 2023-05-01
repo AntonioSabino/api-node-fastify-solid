@@ -3,6 +3,8 @@ import CheckInsService from './check-ins.service'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { CheckIn } from '@/common/interfaces/check-ins.interface'
 import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms.repository'
+import { MaxNumberOfCheckInsError } from '@/common/errors/max-number-of-check-ins-erro'
+import { MaxDistanceError } from '@/common/errors/max-distance-error'
 
 describe('CheckIn Service', () => {
   let gymsRepository: InMemoryGymsRepository
@@ -14,7 +16,7 @@ describe('CheckIn Service', () => {
     checkInsRepository = new InMemoryCheckInsRepository()
     checkInsService = new CheckInsService(checkInsRepository, gymsRepository)
 
-    gymsRepository.gyms.push({
+    gymsRepository.create({
       id: 'gym_id',
       name: 'Gym Name',
       description: 'Gym Description',
@@ -63,7 +65,7 @@ describe('CheckIn Service', () => {
         userLatitude: '0',
         userLongitude: '0',
       }),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(MaxNumberOfCheckInsError)
   })
 
   it('should be able to create a new check-in twice in diffent days ', async () => {
@@ -89,8 +91,7 @@ describe('CheckIn Service', () => {
   })
 
   it('should not be able to check-in on distant gym', async () => {
-    gymsRepository.gyms.push({
-      id: 'gym_02',
+    const createdGym = await gymsRepository.create({
       name: 'Gym Name',
       description: 'Gym Description',
       phone: 'Gym Phone',
@@ -100,11 +101,11 @@ describe('CheckIn Service', () => {
 
     await expect(() =>
       checkInsService.create({
-        gymId: 'gym_02',
+        gymId: createdGym.id,
         userId: 'user_id',
         userLatitude: '-23.678979',
         userLongitude: '-46.428101',
       }),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(MaxDistanceError)
   })
 })
