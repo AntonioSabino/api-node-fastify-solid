@@ -9,6 +9,14 @@ import dayjs from 'dayjs'
 export class InMemoryCheckInsRepository implements CheckInsRepository {
   private readonly checkIns: CheckIn[] = []
 
+  async countByUserId(userId: string) {
+    const count = this.checkIns.filter(
+      (checkIn) => checkIn.user_id === userId,
+    ).length
+
+    return count
+  }
+
   async findManyByUserId(userId: string, page: number) {
     const checkIns = this.checkIns
       .filter((checkIn) => checkIn.user_id === userId)

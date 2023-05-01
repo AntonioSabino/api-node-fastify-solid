@@ -4,6 +4,16 @@ import { CheckIn, Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 
 export class PrismaUsersRepository implements CheckInsRepository {
+  async countByUserId(userId: string) {
+    const count = await prisma.checkIn.count({
+      where: {
+        user_id: userId,
+      },
+    })
+
+    return count
+  }
+
   async findByUserIdAndDate(userId: string, date: Date) {
     const startOfTheDay = dayjs(date).startOf('date')
     const endOfTheDay = dayjs(date).endOf('date')
