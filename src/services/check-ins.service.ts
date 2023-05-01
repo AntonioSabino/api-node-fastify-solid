@@ -55,4 +55,10 @@ export default class CheckInsService {
 
     return checkIns
   }
+
+  async countByUserId(userId: string): Promise<number> {
+    const count = await this.checkInsRepository.countByUserId(userId)
+
+    return count
+  }
 }

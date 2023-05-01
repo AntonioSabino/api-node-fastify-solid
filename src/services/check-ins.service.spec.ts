@@ -145,4 +145,20 @@ describe('CheckIn Service', () => {
       expect.objectContaining({ gym_id: 'gym_21' }),
     ])
   })
+
+  it('should be able to count check-ins by user', async () => {
+    await checkInsRepository.create({
+      gym_id: 'gym_01',
+      user_id: 'user_01',
+    })
+
+    await checkInsRepository.create({
+      gym_id: 'gym_02',
+      user_id: 'user_01',
+    })
+
+    const count = await checkInsService.countByUserId('user_01')
+
+    expect(count).toBe(2)
+  })
 })
