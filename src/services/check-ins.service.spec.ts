@@ -87,4 +87,24 @@ describe('CheckIn Service', () => {
 
     expect(secondCheckIn).toMatchObject<CheckIn>
   })
+
+  it('should not be able to check-in on distant gym', async () => {
+    gymsRepository.gyms.push({
+      id: 'gym_02',
+      name: 'Gym Name',
+      description: 'Gym Description',
+      phone: 'Gym Phone',
+      latitude: '-23.6697338',
+      longitude: '-46.4594521',
+    })
+
+    await expect(() =>
+      checkInsService.create({
+        gymId: 'gym_02',
+        userId: 'user_id',
+        userLatitude: '-23.678979',
+        userLongitude: '-46.428101',
+      }),
+    ).rejects.toBeInstanceOf(Error)
+  })
 })
