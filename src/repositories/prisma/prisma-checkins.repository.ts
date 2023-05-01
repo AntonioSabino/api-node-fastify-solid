@@ -23,6 +23,21 @@ export class PrismaUsersRepository implements CheckInsRepository {
     return checkInOnSameDay
   }
 
+  async findManyByUserId(userId: string, page: number) {
+    const checkIns = await prisma.checkIn.findMany({
+      where: {
+        user_id: userId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip: page * 20,
+      take: 20,
+    })
+
+    return checkIns
+  }
+
   async create(data: Prisma.CheckInUncheckedCreateInput): Promise<CheckIn> {
     const checkIn = await prisma.checkIn.create({ data })
     return checkIn
