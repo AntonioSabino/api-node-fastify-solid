@@ -61,4 +61,18 @@ export default class CheckInsService {
 
     return count
   }
+
+  async validateCheckIn(checkInId: string) {
+    const checkIn = await this.checkInsRepository.findById(checkInId)
+
+    if (!checkIn) {
+      throw new ResourceNotFoundError()
+    }
+
+    checkIn.validated_at = new Date()
+
+    await this.checkInsRepository.save(checkIn)
+
+    return checkIn
+  }
 }
