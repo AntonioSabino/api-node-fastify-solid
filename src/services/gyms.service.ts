@@ -11,4 +11,13 @@ export class GymsService {
   async findManyByName(name: string, page: number) {
     return this.gymsRepository.findManyByName(name, page)
   }
+
+  async findNearbyGyms(userLat: number, userLng: number) {
+    const gyms = await this.gymsRepository.findManyNearby({
+      latitude: userLat,
+      longitude: userLng,
+    })
+
+    return gyms
+  }
 }
