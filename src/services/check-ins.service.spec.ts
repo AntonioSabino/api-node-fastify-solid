@@ -6,6 +6,7 @@ import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms.
 import { MaxNumberOfCheckInsError } from '@/common/errors/max-number-of-check-ins-erro'
 import { MaxDistanceError } from '@/common/errors/max-distance-error'
 import { ResourceNotFoundError } from '@/common/errors/resource-not-found-error'
+import { LateCheckInValidationError } from '@/common/errors/late-checkin-validation-error'
 
 describe('CheckIn Service', () => {
   let gymsRepository: InMemoryGymsRepository
@@ -178,5 +179,39 @@ describe('CheckIn Service', () => {
     await expect(
       checkInsService.validateCheckIn('inexistent_user'),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
+  })
+
+  it('should be able to validate the checked-in after 20 minutes of its creation', async () => {
+    vi.setSystemTime(new Date('2023-03-28T10:00:00.000Z'))
+
+    await checkInsRepository.create({
+      gym_id: 'gym_01',
+      user_id: 'user_01',
+    })
+
+    const nineteenMinutesLater = 19 * 60 * 1000 // 19 minutes
+
+    vi.advanceTimersByTime(nineteenMinutesLater)
+
+    const validatedCheckIn = await checkInsService.validateCheckIn('user_01')
+
+    expect(validatedCheckIn.createdAt).toEqual(expect.any(Date))
+  })
+
+  it('should not be able to validate the checked-in after 20 minutes of its creation', async () => {
+    vi.setSystemTime(new Date('2023-03-28T10:00:00.000Z'))
+
+    await checkInsRepository.create({
+      gym_id: 'gym_01',
+      user_id: 'user_01',
+    })
+
+    const twentyMinutesLater = 21 * 60 * 1000 // 21 minutes
+
+    vi.advanceTimersByTime(twentyMinutesLater)
+
+    await expect(
+      checkInsService.validateCheckIn('user_01'),
+    ).rejects.toBeInstanceOf(LateCheckInValidationError)
   })
 })
