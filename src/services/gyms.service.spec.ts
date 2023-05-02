@@ -65,4 +65,29 @@ describe('Gyms Service', () => {
       expect.objectContaining({ name: 'TypeScript Gym 21' }),
     ])
   })
+
+  it('should be able to find nearby gyms', async () => {
+    // This gym should be returned
+    await gymsService.create({
+      name: 'Near Gym',
+      description: null,
+      phone: null,
+      latitude: '-23.6697338', // less than 10 km away
+      longitude: '-46.4594521', // less than 10 km away
+    })
+
+    // This gym should not be returned
+    await gymsService.create({
+      name: 'Far Gym',
+      description: null,
+      phone: null,
+      latitude: '-23.5143729862382',
+      longitude: '-46.77836580488991',
+    })
+
+    const gyms = await gymsService.findNearbyGyms(-23.6697338, -46.4594521)
+
+    expect(gyms).toHaveLength(1)
+    expect(gyms).toEqual([expect.objectContaining({ name: 'Near Gym' })])
+  })
 })
