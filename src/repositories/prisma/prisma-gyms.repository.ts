@@ -2,7 +2,6 @@ import { prisma } from '@/lib/prisma'
 import { FindManyNearbyGymsParams, GymsRepository } from '../gyms.repository'
 import { Gym } from '@/common/interfaces/gym.interface'
 import { Prisma } from '@prisma/client'
-import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coordinates'
 
 export class PrismaGymsRepository implements GymsRepository {
   async create(gym: Prisma.GymCreateInput): Promise<Gym> {
@@ -49,19 +48,13 @@ export class PrismaGymsRepository implements GymsRepository {
     return convertedGyms
   }
 
-  async findManyNearby(params: FindManyNearbyGymsParams) {
-    const gyms = await prisma.gym.findMany()
+  async findManyNearby({ latitude, longitude }: FindManyNearbyGymsParams) {
+    const gyms = await prisma.$queryRaw<Gym[]>`
+      SELECT * from gyms
+      WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 10
+    `
 
-    const nearbyGyms = gyms.filter((gym) => {
-      const distance = getDistanceBetweenCoordinates(
-        { latitude: params.latitude, longitude: params.longitude },
-        { latitude: Number(gym.latitude), longitude: Number(gym.longitude) },
-      )
-
-      return distance < 10
-    })
-
-    const convertedGyms = nearbyGyms.map((gym) => ({
+    const convertedGyms = gyms.map((gym) => ({
       ...gym,
       latitude: gym.latitude.toString(),
       longitude: gym.longitude.toString(),
