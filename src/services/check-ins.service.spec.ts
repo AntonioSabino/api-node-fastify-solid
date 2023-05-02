@@ -5,6 +5,7 @@ import { CheckIn } from '@/common/interfaces/check-ins.interface'
 import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms.repository'
 import { MaxNumberOfCheckInsError } from '@/common/errors/max-number-of-check-ins-erro'
 import { MaxDistanceError } from '@/common/errors/max-distance-error'
+import { ResourceNotFoundError } from '@/common/errors/resource-not-found-error'
 
 describe('CheckIn Service', () => {
   let gymsRepository: InMemoryGymsRepository
@@ -160,5 +161,22 @@ describe('CheckIn Service', () => {
     const count = await checkInsService.countByUserId('user_01')
 
     expect(count).toBe(2)
+  })
+
+  it('should be able to validate the checked-in', async () => {
+    await checkInsRepository.create({
+      gym_id: 'gym_01',
+      user_id: 'user_01',
+    })
+
+    const validatedCheckIn = await checkInsService.validateCheckIn('user_01')
+
+    expect(validatedCheckIn.createdAt).toEqual(expect.any(Date))
+  })
+
+  it('should not be able to validate the checked-in if not exists', async () => {
+    await expect(
+      checkInsService.validateCheckIn('inexistent_user'),
+    ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 })
