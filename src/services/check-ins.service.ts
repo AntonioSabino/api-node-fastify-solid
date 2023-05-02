@@ -1,3 +1,4 @@
+import { LateCheckInValidationError } from '@/common/errors/late-checkin-validation-error'
 import { MaxDistanceError } from '@/common/errors/max-distance-error'
 import { MaxNumberOfCheckInsError } from '@/common/errors/max-number-of-check-ins-erro'
 import { ResourceNotFoundError } from '@/common/errors/resource-not-found-error'
@@ -5,6 +6,7 @@ import { CheckIn, CheckInInput } from '@/common/interfaces/check-ins.interface'
 import { CheckInsRepository } from '@/repositories/check-ins.repository'
 import { GymsRepository } from '@/repositories/gyms.repository'
 import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coordinates'
+import dayjs from 'dayjs'
 
 export default class CheckInsService {
   constructor(
@@ -67,6 +69,19 @@ export default class CheckInsService {
 
     if (!checkIn) {
       throw new ResourceNotFoundError()
+    }
+
+    const distanceInMinutesFromCheckInCreation = dayjs(new Date()).diff(
+      checkIn.createdAt,
+      'minutes',
+    )
+
+    const MAX_MINUTES_TO_VALIDATE_CHECK_IN = 20
+
+    if (
+      distanceInMinutesFromCheckInCreation > MAX_MINUTES_TO_VALIDATE_CHECK_IN
+    ) {
+      throw new LateCheckInValidationError()
     }
 
     checkIn.validated_at = new Date()
