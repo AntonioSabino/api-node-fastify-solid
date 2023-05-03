@@ -1,6 +1,6 @@
+import AuthenticateController from '@/http/controllers/authenticate.controller'
 import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users.repository'
 import { AuthenticateService } from '@/services/authenticate.service'
-import AuthenticateController from '../authenticate.controller'
 
 export default function makeAuthController() {
   const usersRepository = new PrismaUsersRepository()
