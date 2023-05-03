@@ -16,3 +16,7 @@ Content-Type: application/json
   "email": "sabino.doe@gmail.com",
   "password": "123456"
 }
+
+###
+GET http://localhost:3333/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhNDczMzAxNC0yZDc3LTQyNjAtODE0Yi04ZGU1ZWI5YWJmZDUiLCJpYXQiOjE2ODMwNjM4NTl9.mvzqqlsDxxVZK1LJHcOZoKrhVoP8rcr9qGNEfqkDPBc

@@ -34,4 +34,15 @@ export class UsersController {
 
     return reply.status(201).send()
   }
+
+  async getUser(request: FastifyRequest, reply: FastifyReply) {
+    const user = await this.usersService.findById(request.user.sub)
+
+    return reply.status(200).send({
+      user: {
+        ...user,
+        password_hash: undefined,
+      },
+    })
+  }
 }

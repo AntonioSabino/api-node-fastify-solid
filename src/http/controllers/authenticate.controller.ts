@@ -15,9 +15,22 @@ export default class AuthenticateController {
     const { email, password } = authenticateBodySchema.parse(request.body)
 
     try {
-      await this.authenticateService.login({
+      const user = await this.authenticateService.login({
         email,
         password,
+      })
+
+      const token = await reply.jwtSign(
+        {},
+        {
+          sign: {
+            sub: user.id,
+          },
+        },
+      )
+
+      return reply.status(200).send({
+        token,
       })
     } catch (error) {
       if (error instanceof InvalidCredentialsError) {
@@ -28,7 +41,5 @@ export default class AuthenticateController {
 
       throw error
     }
-
-    return reply.status(200).send()
   }
 }
