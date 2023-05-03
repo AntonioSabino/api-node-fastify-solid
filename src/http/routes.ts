@@ -11,5 +11,5 @@ export async function appRoutes(app: FastifyInstance) {
   app.get('/users/me', { onRequest: [verifyJwt] }, (req, res) =>
     userController.getUser(req, res),
   )
-  app.post('/login', (req, res) => authController.login(req, res))
+  app.post('/auth', (req, res) => authController.login(req, res))
 }
