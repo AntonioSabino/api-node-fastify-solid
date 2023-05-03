@@ -3,8 +3,8 @@ export interface Gym {
   name: string
   description: string | null
   phone: string | null
-  latitude: string
-  longitude: string
+  latitude: number
+  longitude: number
 }
 
 export interface GymInput {
@@ -12,6 +12,6 @@ export interface GymInput {
   name: string
   description: string | null
   phone: string | null
-  latitude: string
-  longitude: string
+  latitude: number
+  longitude: number
 }

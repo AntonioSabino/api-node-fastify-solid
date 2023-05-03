@@ -9,8 +9,8 @@ export class PrismaGymsRepository implements GymsRepository {
 
     const convertedGym: Gym = {
       ...createdGym,
-      latitude: createdGym.latitude.toString(),
-      longitude: createdGym.longitude.toString(),
+      latitude: createdGym.latitude.toNumber(),
+      longitude: createdGym.longitude.toNumber(),
     }
 
     return convertedGym
@@ -25,8 +25,8 @@ export class PrismaGymsRepository implements GymsRepository {
 
     const convertedGym: Gym = {
       ...gym,
-      latitude: gym.latitude.toString(),
-      longitude: gym.longitude.toString(),
+      latitude: gym.latitude.toNumber(),
+      longitude: gym.longitude.toNumber(),
     }
 
     return convertedGym
@@ -41,8 +41,8 @@ export class PrismaGymsRepository implements GymsRepository {
 
     const convertedGyms = gym.map((gym) => ({
       ...gym,
-      latitude: gym.latitude.toString(),
-      longitude: gym.longitude.toString(),
+      latitude: gym.latitude.toNumber(),
+      longitude: gym.longitude.toNumber(),
     }))
 
     return convertedGyms
@@ -54,12 +54,6 @@ export class PrismaGymsRepository implements GymsRepository {
       WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 10
     `
 
-    const convertedGyms = gyms.map((gym) => ({
-      ...gym,
-      latitude: gym.latitude.toString(),
-      longitude: gym.longitude.toString(),
-    }))
-
-    return convertedGyms
+    return gyms
   }
 }
