@@ -2,21 +2,32 @@ POST http://localhost:3333/users
 Content-Type: application/json
 
 {
-  "name": "Antonio Sabino",
-  "email": "sabino.doe@gmail.com",
+  "name": "User 1",
+  "email": "user1@example.com",
   "password": "123456"
 }
 
 ###
 
-POST http://localhost:3333/login
+POST http://localhost:3333/users
 Content-Type: application/json
 
 {
-  "email": "sabino.doe@gmail.com",
-  "password": "123456"
+  "name": "User 2",
+  "email": "user2@example.com",
+  "password": "654321"
+}
+
+###
+
+POST http://localhost:3333/auth
+Content-Type: application/json
+
+{
+  "email": "user2@example.com",
+  "password": "654321"
 }
 
 ###
 GET http://localhost:3333/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhNDczMzAxNC0yZDc3LTQyNjAtODE0Yi04ZGU1ZWI5YWJmZDUiLCJpYXQiOjE2ODMwNjM4NTl9.mvzqqlsDxxVZK1LJHcOZoKrhVoP8rcr9qGNEfqkDPBc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5M2EwMmFlMS1kODA1LTQ2YTAtYWE0OC03ZGJiOGU5NTAxNWUiLCJpYXQiOjE2ODMxMjM1NTV9.gA54l3gxtVh6Tn5C-EOsVBN7AV7xr0lpf9QWdlp7pvU

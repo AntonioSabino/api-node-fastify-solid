@@ -23,8 +23,8 @@ export class UsersService {
     })
   }
 
-  async findById({ userId }: any): Promise<User> {
-    const user = await this.usersRepository.findById(userId)
+  async findById(id: string): Promise<User> {
+    const user = await this.usersRepository.findById(id)
 
     if (!user) {
       throw new ResourceNotFoundError()
