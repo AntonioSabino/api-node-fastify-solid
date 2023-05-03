@@ -12,7 +12,7 @@ describe('UsersController', () => {
   })
 
   it('should be able to create a new user', async () => {
-    const response = await request(app.server).post('/user').send({
+    const response = await request(app.server).post('/users').send({
       name: 'User 1',
       email: 'user1@example.com',
       password: '123456',
@@ -22,7 +22,7 @@ describe('UsersController', () => {
   })
 
   it('should be able to list a user', async () => {
-    await request(app.server).post('/user').send({
+    await request(app.server).post('/users').send({
       name: 'User 2',
       email: 'user2@example.com',
       password: '654321',
@@ -36,7 +36,7 @@ describe('UsersController', () => {
     const { token } = authResponse.body
 
     const userResponse = await request(app.server)
-      .get('/user/me')
+      .get('/users/me')
       .set('Authorization', `Bearer ${token}`)
       .send()
 
