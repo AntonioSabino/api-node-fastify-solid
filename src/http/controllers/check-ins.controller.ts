@@ -22,14 +22,14 @@ export class CheckInsController {
     const { gymId } = paramsSchema.parse(request.params)
     const { userLatitude, userLongitude } = bodySchema.parse(request.body)
 
-    await this.checkInsService.create({
+    const checkIn = await this.checkInsService.create({
       gymId,
       userId: request.user.sub,
       userLatitude: userLatitude.toString(),
       userLongitude: userLongitude.toString(),
     })
 
-    return reply.status(201).send()
+    return reply.status(201).send(checkIn)
   }
 
   async count(request: FastifyRequest, reply: FastifyReply) {
