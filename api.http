@@ -1,4 +1,4 @@
-POST http://localhost:3333/user
+POST http://localhost:3333/users
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3333/user
+POST http://localhost:3333/users
 Content-Type: application/json
 
 {
@@ -29,5 +29,14 @@ Content-Type: application/json
 }
 
 ###
+PATCH http://localhost:3333/auth/refresh
+Content-Type: application/json
+
+{
+  "email": "user2@example.com",
+  "password": "654321"
+}
+
+###
 GET http://localhost:3333/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5M2EwMmFlMS1kODA1LTQ2YTAtYWE0OC03ZGJiOGU5NTAxNWUiLCJpYXQiOjE2ODMxMjM1NTV9.gA54l3gxtVh6Tn5C-EOsVBN7AV7xr0lpf9QWdlp7pvU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMjM3ZTY5Zi1hYTk2LTQwNGYtOTJjNS0yNTA3ZjQ0ZTY2NGUiLCJpYXQiOjE2ODMyMTIwNTMsImV4cCI6MTY4MzIxNTY1M30.P_xyOfez6QcE3l0KjhDt48sroEBD1C0M9lRwJgg-8zc

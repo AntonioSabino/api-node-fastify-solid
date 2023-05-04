@@ -29,9 +29,25 @@ export default class AuthenticateController {
         },
       )
 
-      return reply.status(200).send({
-        token,
-      })
+      const refreshToken = await reply.jwtSign(
+        {},
+        {
+          sign: {
+            sub: user.id,
+            expiresIn: '7d',
+          },
+        },
+      )
+
+      return reply
+        .setCookie('refreshToken', refreshToken, {
+          path: '/',
+          // secure: true,
+          sameSite: true,
+          httpOnly: true,
+        })
+        .status(200)
+        .send({ token })
     } catch (error) {
       if (error instanceof InvalidCredentialsError) {
         return reply.status(400).send({
@@ -41,5 +57,38 @@ export default class AuthenticateController {
 
       throw error
     }
+  }
+
+  async refreshToken(request: FastifyRequest, reply: FastifyReply) {
+    await request.jwtVerify({ onlyCookie: true })
+
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: request.user.sub,
+        },
+      },
+    )
+
+    const refreshToken = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: request.user.sub,
+          expiresIn: '7d',
+        },
+      },
+    )
+
+    return reply
+      .setCookie('refreshToken', refreshToken, {
+        path: '/',
+        // secure: true,
+        sameSite: true,
+        httpOnly: true,
+      })
+      .status(200)
+      .send({ token })
   }
 }
