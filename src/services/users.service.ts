@@ -7,7 +7,12 @@ import { ResourceNotFoundError } from '@/common/errors/resource-not-found-error'
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async create({ name, email, password }: UserCreateInput): Promise<User> {
+  async create({
+    name,
+    email,
+    password,
+    role,
+  }: UserCreateInput): Promise<User> {
     const passwordHash = await hash(password, 8)
 
     const userWithSameEmail = await this.usersRepository.findByEmail(email)
@@ -19,6 +24,7 @@ export class UsersService {
     return this.usersRepository.create({
       name,
       email,
+      role,
       password_hash: passwordHash,
     })
   }

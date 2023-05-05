@@ -11,15 +11,19 @@ export class UsersController {
     const registerBodySchema = z.object({
       name: z.string(),
       email: z.string().email(),
+      role: z.enum(['USER', 'ADMIN']).default('USER'),
       password: z.string().min(3),
     })
 
-    const { name, email, password } = registerBodySchema.parse(request.body)
+    const { name, email, password, role } = registerBodySchema.parse(
+      request.body,
+    )
 
     try {
       await this.usersService.create({
         name,
         email,
+        role,
         password,
       })
     } catch (error) {

@@ -12,6 +12,7 @@ export interface User {
 export interface UserCreateInput {
   name: string
   email: string
+  role: Role
   password: string
 }
 
