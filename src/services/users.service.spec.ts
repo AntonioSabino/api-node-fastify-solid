@@ -18,6 +18,7 @@ describe('User Service', () => {
     const user = await usersService.create({
       name: 'John Doe',
       email: 'john.doe@gmail.com',
+      role: 'USER',
       password: '123456',
     })
 
@@ -28,6 +29,7 @@ describe('User Service', () => {
     const user = await usersService.create({
       name: 'John Doe',
       email: 'john.doe@gmail.com',
+      role: 'USER',
       password: '123456',
     })
 
@@ -42,6 +44,7 @@ describe('User Service', () => {
     await usersService.create({
       name: 'John Doe',
       email,
+      role: 'USER',
       password: '123456',
     })
 
@@ -49,6 +52,7 @@ describe('User Service', () => {
       return usersService.create({
         name: 'John Doe',
         email,
+        role: 'USER',
         password: '123456',
       })
     }).rejects.toBeInstanceOf(UserAlreadyExistsError)
@@ -58,10 +62,11 @@ describe('User Service', () => {
     const user = await usersService.create({
       name: 'John Doe',
       email: 'john.doe@gmail.com',
+      role: 'USER',
       password: '123456',
     })
 
-    const foundUser = await usersService.findById({ userId: user.id })
+    const foundUser = await usersService.findById(user.id)
 
     expect(foundUser).toMatchObject<User>(user)
     expect(foundUser.name).toBe('John Doe')
@@ -69,7 +74,7 @@ describe('User Service', () => {
 
   it('should not be able to find a non-existing user', async () => {
     await expect(() => {
-      return usersService.findById({ userId: 'non-existing-user-id' })
+      return usersService.findById('non-existing-user-id')
     }).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 })
