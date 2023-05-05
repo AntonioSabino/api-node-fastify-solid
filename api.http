@@ -24,8 +24,8 @@ POST http://localhost:3333/auth
 Content-Type: application/json
 
 {
-  "email": "user2@example.com",
-  "password": "654321"
+  "email": "admin@example.com",
+  "password": "123456"
 }
 
 ###
@@ -33,10 +33,14 @@ PATCH http://localhost:3333/auth/refresh
 Content-Type: application/json
 
 {
-  "email": "user2@example.com",
-  "password": "654321"
+  "email": "admin@example.com",
+  "password": "123456"
 }
 
 ###
 GET http://localhost:3333/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMjM3ZTY5Zi1hYTk2LTQwNGYtOTJjNS0yNTA3ZjQ0ZTY2NGUiLCJpYXQiOjE2ODMyMTIwNTMsImV4cCI6MTY4MzIxNTY1M30.P_xyOfez6QcE3l0KjhDt48sroEBD1C0M9lRwJgg-8zc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhM2U4OWNmZi1iOTU0LTQyMGUtODcwNy02YjZmMjY1MWI4ZWUiLCJpYXQiOjE2ODMyNDgxMzUsImV4cCI6MTY4MzI1MTczNX0.y4w3xB1kovyTJxCTr64IKecnqjVKn6ufy1Uq_tmEUus
+
+###
+POST http://localhost:3333/gyms
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhM2U4OWNmZi1iOTU0LTQyMGUtODcwNy02YjZmMjY1MWI4ZWUiLCJpYXQiOjE2ODMyNDgxMzUsImV4cCI6MTY4MzI1MTczNX0.y4w3xB1kovyTJxCTr64IKecnqjVKn6ufy1Uq_tmEUus
