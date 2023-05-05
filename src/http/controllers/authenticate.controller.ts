@@ -21,7 +21,9 @@ export default class AuthenticateController {
       })
 
       const token = await reply.jwtSign(
-        {},
+        {
+          role: user.role,
+        },
         {
           sign: {
             sub: user.id,
@@ -30,7 +32,9 @@ export default class AuthenticateController {
       )
 
       const refreshToken = await reply.jwtSign(
-        {},
+        {
+          role: user.role,
+        },
         {
           sign: {
             sub: user.id,
@@ -63,7 +67,7 @@ export default class AuthenticateController {
     await request.jwtVerify({ onlyCookie: true })
 
     const token = await reply.jwtSign(
-      {},
+      { role: request.user.role },
       {
         sign: {
           sub: request.user.sub,
@@ -72,7 +76,7 @@ export default class AuthenticateController {
     )
 
     const refreshToken = await reply.jwtSign(
-      {},
+      { role: request.user.role },
       {
         sign: {
           sub: request.user.sub,
