@@ -13,7 +13,11 @@ describe('CheckInsController', () => {
   })
 
   it('should be able to create a check-in', async () => {
-    const { token } = await createAndAuthUser(app)
+    const { token } = await createAndAuthUser(
+      app,
+      'authenticateduser@example.com',
+      true,
+    )
 
     const gym = await request(app.server)
       .post('/gyms')
@@ -38,7 +42,7 @@ describe('CheckInsController', () => {
   })
 
   it('should be able to list history of check-ins', async () => {
-    const { token } = await createAndAuthUser(app, 'history@email.com')
+    const { token } = await createAndAuthUser(app, 'history@email.com', true)
 
     const gym = await request(app.server)
       .post('/gyms')
@@ -78,7 +82,7 @@ describe('CheckInsController', () => {
   })
 
   it('should be able to get the total count of check-ins', async () => {
-    const { token } = await createAndAuthUser(app, 'count@email.com')
+    const { token } = await createAndAuthUser(app, 'count@email.com', true)
 
     const gym = await request(app.server)
       .post('/gyms')
@@ -118,7 +122,7 @@ describe('CheckInsController', () => {
   })
 
   it('should be able validate the check-in', async () => {
-    const { token } = await createAndAuthUser(app, 'validate@email.com')
+    const { token } = await createAndAuthUser(app, 'validate@email.com', true)
 
     const gym = await request(app.server)
       .post('/gyms')

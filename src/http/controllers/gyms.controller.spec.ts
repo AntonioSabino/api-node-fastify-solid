@@ -13,7 +13,11 @@ describe('GymsController', () => {
   })
 
   it('should be able to create a new gym', async () => {
-    const { token } = await createAndAuthUser(app)
+    const { token } = await createAndAuthUser(
+      app,
+      'authenticateduser@example.com',
+      true,
+    )
 
     const response = await request(app.server)
       .post('/gyms')
@@ -67,7 +71,11 @@ describe('GymsController', () => {
   })
 
   it('should be able to list gyms by name', async () => {
-    const { token } = await createAndAuthUser(app)
+    const { token } = await createAndAuthUser(
+      app,
+      'authenticateduser@example.com',
+      true,
+    )
 
     await request(app.server)
       .post('/gyms')

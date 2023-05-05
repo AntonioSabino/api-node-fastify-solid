@@ -8,7 +8,9 @@ const gymsController = makeGymsController()
 export async function gymsRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJwt)
 
-  app.post('/', { onRequest: [verifyRole('ADMIN')] }, gymsController.createGym)
+  app.post('/', { onRequest: [verifyRole('ADMIN')] }, (req, res) =>
+    gymsController.createGym(req, res),
+  )
   app.get('/search', (req, res) => gymsController.findGymsByName(req, res))
   app.get('/nearby', (req, res) => gymsController.findNearbyGyms(req, res))
 }
